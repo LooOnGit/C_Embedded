@@ -41,7 +41,6 @@ Cấp phát động là quá trình **cấp phát bộ nhớ trong thời gian c
 ### 📌 Hàm `malloc`
 Hàm `malloc` cấp phát một khối bộ nhớ có kích thước `size` (tính bằng byte). Bộ nhớ này không được khởi tạo giá trị và có thể chứa các giá trị ngẫu nhiên.
 
-```c
 void* malloc(size_t size);
 int *ptr = (int*) malloc(10 * sizeof(int));  // Cấp phát bộ nhớ cho mảng 10 phần tử kiểu int
 
