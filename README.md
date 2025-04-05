@@ -19,7 +19,7 @@ Cấp phát động là quá trình **cấp phát bộ nhớ trong thời gian c
 
 ## So sánh với cấp phát tĩnh
 | Cấp phát bộ nhớ tĩnh| Cấp phát bộ nhớ động|
-|-------------------------------------------|
+|---------------------|---------------------|
 |Bộ nhớ được cấp phát trước khi chạy  chương trình (trong qúa trình biên dịch)| Bộ nhớ được cấp phát trong quá trình chạy chương trình.|
 |Không thể cấp phát hạy phân bổ lại bộ nhớ trong khii chạy chương trình| Cho phép quản lý, phân bố hay giải phóng bộ nhớ trong khi chạy chương trình|
 |Vùng nhớ được cấp phát và tồn tại cho đến khi kết thúc chương trình| Chỉ cấp phát vùng nhớ khi cần sử dụng tới|
