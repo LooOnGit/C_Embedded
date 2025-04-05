@@ -2,6 +2,6 @@
 
 
 int main(){
-    printf("tran cong hoa");
+    printf("ffffffff");
     return 0;
 }
