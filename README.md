@@ -45,9 +45,8 @@ Hàm malloc cấp phát một khối bộ nhớ có kích thước size (tính b
 void* malloc(size_t size);
 int *ptr = (int*) malloc(10 * sizeof(int));  // Cấp phát bộ nhớ cho mảng 10 phần tử kiểu int
 
-\n
 
-### 📌 Hàm `calloc`
+📌 Hàm calloc
 Hàm calloc tương tự như malloc, nhưng ngoài việc cấp phát bộ nhớ, nó còn khởi tạo tất cả các ô nhớ đã cấp phát về giá trị 0.
 
 ```c
@@ -55,13 +54,13 @@ void* calloc(size_t num, size_t size);
 int *ptr = (int*) calloc(10, sizeof(int));  // Cấp phát bộ nhớ cho mảng 10 phần tử kiểu int và khởi tạo về 0
 
 
-### 📌 Hàm `free`
+📌 Hàm free
 Hàm free được sử dụng để giải phóng bộ nhớ đã được cấp phát động trước đó. Sau khi gọi free, con trỏ ptr không còn trỏ tới vùng bộ nhớ hợp lệ nữa, vì vậy cần phải đảm bảo không sử dụng lại con trỏ đó mà không cấp phát lại bộ nhớ.
 
 ```c
 free(ptr); //ptr là con trỏ
 ptr = NULL; // Đặt con trỏ về NULL để tránh truy cập vùng bộ nhớ không hợp lệ
-\n
+
 
 ---
 
