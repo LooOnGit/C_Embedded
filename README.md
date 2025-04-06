@@ -9,7 +9,7 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 - [Tổng quan](#tổng-quan)
 - [Khái niệm cơ bản về con trỏ](#khái-niệm-cơ-bản-về-con-trỏ)
 - [Khai báo và sử dụng con trỏ](#khai-báo-và-sử-dụng-con-trỏ)
-- [Ví dụ cơ bản](#ví-dụ-cơ-bản)
+- [Toán tử tăng giảm con trỏ](#Toán tử Tăng Giảm Con trỏ)
 - [Con trỏ và mảng](#con-trỏ-và-mảng)
 - [Con trỏ tới hàm](#con-trỏ-tới-hàm)
 - [Lưu ý khi sử dụng con trỏ](#lưu-ý-khi-sử-dụng-con-trỏ)
@@ -80,7 +80,15 @@ int main() {
     return 0;
 }
 ```
-- **&pt**: địa chỉ của con trỏ (được RAM cấp)
-- **pt**: địa chỉ con trỏ trỏ đến (được RAM cấp)
-- ***pt**: giá trị tại vùng địa chỉ con trỏ trỏ đến (được RAM cấp)
+- **&pt**: địa chỉ của con trỏ trên RAM
+- **pt**: địa chỉ con trỏ trỏ đến trên RAM.
+- ***pt**: giá trị tại vùng địa chỉ con trỏ trỏ đến trên RAM
+---
 
+## ➕ Toán tử Tăng Giảm Con trỏ
+
+Giống như một biến thông thường, con trỏ cũng có toán tử tăng giảm, tuy nhiên khi sử dụng toán tử tăng/giảm trên biến con trỏ, nó sẽ nhảy sang phần tử liền kề chứ không phải tăng/giảm giá trị lên 1 đơn vị.
+
+![alt text](image.png)
+
+## 🧑‍💻 Con trỏ và mảng
