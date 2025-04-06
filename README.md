@@ -96,7 +96,7 @@ int main() {
 }
 
 ```
-## 📌 Ví dụ 1
+## 📌 Ví dụ 2
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -120,6 +120,18 @@ int *them(int *arr, int *n){
     return arr_2;
 }
 
+int *xoa(int *arr,int *n,int index){
+    for (int i = index; i < *n; i++)
+    {
+        arr[i] = arr[i+1];
+    }
+    (*n)--;
+    int *arr_2 = calloc(*n, sizeof(int));
+    memcpy(arr_2, arr, (*n)*sizeof(int));
+    free(arr);
+    return arr_2;
+}
+
 int main() {
     int n = 10;
     int *arr = (int*)calloc(10, sizeof(int));
@@ -130,6 +142,8 @@ int main() {
     in(arr, 10);
     arr = them(arr, &n);
     in(arr, n);
+    arr = xoa(arr, &n, 2);
+    in(arr, n);
     return 0;
 }
 
@@ -137,6 +151,52 @@ int main() {
 *arr chỉ là 1 con trỏ đang trở đến vùng nhớ, bởi vậy nên khi free trong them thì chỉ giải phóng đi vùng nhớ thôi chứ không ảnh hưởng đến con trỏ.
 
 ---
+
+## 📌 Ví dụ về lỗi hay gặp của cấp phát bộ nhớ động
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+void capphatbonho(int *pt)
+{
+    pt = calloc(10, sizeof(int));
+}
+
+void main()
+{
+    int *pt;
+    capphatbonho(pt);
+    pt[0] = 1;
+    printf("%d", pt[0]);
+}
+```
+Khi bạn gọi hàm capphatbonho(pt), bạn chỉ truyền một con trỏ pt vào hàm, nhưng khi thay đổi giá trị của pt bên trong hàm, giá trị đó không được phản ánh ra bên ngoài vì con trỏ này được truyền theo kiểu giá trị (pass-by-value). Điều này có nghĩa là việc cấp phát bộ nhớ trong hàm không ảnh hưởng đến con trỏ pt trong hàm main.
+
+Sửa
+```c
+#include <stdio.h>
+
+int* capphatbonho(void)
+{
+    int *pt = calloc(10, sizeof(int));
+    if (pt == NULL) {
+        printf("Lỗi: Không thể cấp phát bộ nhớ!\n");
+        exit(1);
+    }
+    return pt;
+}
+
+int main()
+{
+    int *pt;
+    pt = capphatbonho();
+    pt[0] = 1;
+    printf("%d\n", pt[0]);
+    free(pt); // Giải phóng bộ nhớ
+    return 0;
+}
+```
+
 ## 📌 Ghi nhớ
 - Đã là con trỏ thì luôn luôn trỏ đến 1 vùng nhớ, sau đó hãy tác động vào nó.
 - Chạy xong cấp phát động phải free để giải phóng bộ nhớ

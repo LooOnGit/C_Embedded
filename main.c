@@ -28,6 +28,17 @@ int *them(int *arr, int *n){
     return arr_2;
 }
 
+int *xoa(int *arr,int *n,int index){
+    for (int i = index; i < *n; i++)
+    {
+        arr[i] = arr[i+1];
+    }
+    (*n)--;
+    int *arr_2 = calloc(*n, sizeof(int));
+    memcpy(arr_2, arr, (*n)*sizeof(int));
+    free(arr);
+    return arr_2;
+}
 
 
 int main() {
@@ -61,6 +72,8 @@ int main() {
     }
     in(arr, 10);
     arr = them(arr, &n);
+    in(arr, n);
+    arr = xoa(arr, &n, 2);
     in(arr, n);
     return 0;
 }
