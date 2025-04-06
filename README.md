@@ -61,10 +61,6 @@ Hàm free được sử dụng để giải phóng bộ nhớ đã được cấ
 free(ptr); //ptr là con trỏ
 ptr = NULL; // Đặt con trỏ về NULL để tránh truy cập vùng bộ nhớ không hợp lệ
 ```
----
-## 📌 Lưu ý
-- Đã là con trỏ thì luôn luôn trỏ đến 1 vùng nhớ, sau đó hãy tác động vào nó.
----
 
 ## 📌 Ví dụ 1
 
@@ -100,7 +96,50 @@ int main() {
 }
 
 ```
+## 📌 Ví dụ 1
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+void in(int *arr, int n){
+    for(int i = 0; i < n; i++){
+        printf("arr[%d] = %d\n", i+1, arr[i]);
+    }
+}
 
+int *them(int *arr, int *n){
+    int a;
+    printf("Nhap phan tu can them: ");
+    scanf("%d", &a);
+    int *arr_2 = (int*)calloc(*n+1, sizeof(int));
+    memcpy(arr_2, arr, (*n)*sizeof(int));
+    arr_2[*n] = a;
+    free(arr);
+    (*n)++;
+    return arr_2;
+}
+
+int main() {
+    int n = 10;
+    int *arr = (int*)calloc(10, sizeof(int));
+    for(int i = 0; i < 10; i++){
+        printf("arr[%d] = ", i+1);
+        scanf("%d", arr+i);
+    }
+    in(arr, 10);
+    arr = them(arr, &n);
+    in(arr, n);
+    return 0;
+}
+
+```
+*arr chỉ là 1 con trỏ đang trở đến vùng nhớ, bởi vậy nên khi free trong them thì chỉ giải phóng đi vùng nhớ thôi chứ không ảnh hưởng đến con trỏ.
+
+---
+## 📌 Ghi nhớ
+- Đã là con trỏ thì luôn luôn trỏ đến 1 vùng nhớ, sau đó hãy tác động vào nó.
+- Chạy xong cấp phát động phải free để giải phóng bộ nhớ
+---
 
 
