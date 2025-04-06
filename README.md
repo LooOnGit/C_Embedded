@@ -92,3 +92,5 @@ Giống như một biến thông thường, con trỏ cũng có toán tử tăng
 ![alt text](image.png)
 
 ## 🧑‍💻 Con trỏ và mảng
+Con trỏ và mảng có một mối quan hệ chặt chẽ trong C. Khi khai báo mảng, tên mảng chính là địa chỉ của phần tử đầu tiên trong mảng.
+![alt text](image-1.png)
