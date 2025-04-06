@@ -19,7 +19,7 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 
 ## 🧠 Tổng quan
 
-Con trỏ là một biến trong C dùng để **lưu trữ địa chỉ của một biến khác**. Việc sử dụng con trỏ giúp tăng tính linh hoạt và hiệu suất của chương trình, đặc biệt khi làm việc với mảng, cấp phát bộ nhớ động, và khi cần truyền tham chiếu tới các hàm.
+Con trỏ là một biến trong C dùng để **lưu trữ địa chỉ của một biến khác**. Việc sử dụng con trỏ giúp tăng tính linh hoạt và hiệu suất của chương trình, đặc biệt khi làm việc với mảng, cấp phát bộ nhớ động, và khi cần truyền tham chiếu tới các hàm.Nhưng biến con trỏ không lưu giá trị bình thường, nó là biến trỏ tới 1 địa chỉ khác, tức mang giá trị là 1 địa chỉ trong RAM.
 
 ---
 
@@ -35,5 +35,11 @@ Con trỏ là một biến trong C dùng để **lưu trữ địa chỉ của m
 
 ### Cách khai báo con trỏ:
 
+**<kiểu dữ liệu>** * **<tên biến>**
+
+Trong đó:
+
+**Kiểu dữ liệu** có thể là: void, char, int, float, double,...
+Dấu * trước **tên biến** là ký hiệu báo cho trình biên dịch biết ta đang khai báo con trỏ.
 ```c
 int *ptr;  // Con trỏ trỏ đến kiểu int
