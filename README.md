@@ -45,7 +45,7 @@ void* malloc(size_t size);
 int *ptr = (int*) malloc(10 * sizeof(int));  // Cấp phát bộ nhớ cho mảng 10 phần tử kiểu int
 
 📌 Hàm calloc
-Hàm calloc tương tự như malloc, nhưng ngoài việc cấp phát bộ nhớ, nó còn khởi tạo tất cả các ô nhớ đã cấp phát về giá trị 0.
+Hàm calloc tương tự như malloc, nhưng ngoài việc cấp phát bộ nhớ, nó còn khởi tạo tất cả các ô nhớ đã cấp phát về giá trị 0. bộ nhớ cấp phát ra bằng num*size.
 
 void* calloc(size_t num, size_t size);
 int *ptr = (int*) calloc(10, sizeof(int));  // Cấp phát bộ nhớ cho mảng 10 phần tử kiểu int và khởi tạo về 0
@@ -60,32 +60,43 @@ ptr = NULL; // Đặt con trỏ về NULL để tránh truy cập vùng bộ nh�
 
 ---
 
-## 📌 Ví dụ cơ bản
+## 📌 Ví dụ 11
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char *ten;
+    int tuoi;
+} sv_info_t;
 
 int main() {
-    int *ptr;
-    int n = 5;
+    sv_info_t sv1;
+    sv1.ten = calloc(30, sizeof(char));  // cấp phát bộ nhớ
 
-    // Cấp phát bộ nhớ cho mảng 5 số nguyên
-    ptr = (int*) malloc(n * sizeof(int));
+    printf("Nhap ten: ");
+    fgets(sv1.ten, 30, stdin);
 
-    if (ptr == NULL) {
-        printf("Cấp phát thất bại!\n");
-        return 1;
-    }
+    // Xóa ký tự newline nếu có
+    sv1.ten[strcspn(sv1.ten, "\n")] = '\0';
 
-    // Gán và in giá trị
-    for (int i = 0; i < n; i++) {
-        ptr[i] = i + 1;
-        printf("%d ", ptr[i]);
-    }
+    printf("Nhap tuoi: ");
+    scanf("%d", &sv1.tuoi);
 
-    // Giải phóng bộ nhớ
-    free(ptr);
+    printf("Ten: %s\n", sv1.ten);
+    printf("Tuoi: %d\n", sv1.tuoi);
+
+    free(sv1.ten);  // giải phóng bộ nhớ đã cấp phát
 
     return 0;
 }
+
+---
+
+## 📌 Lưu ý
+- Đã là con trỏ thì luôn luôn trỏ đến 1 vùng nhớ, sau đó hãy tác động vào nó.
+
+
+
