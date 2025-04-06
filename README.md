@@ -40,8 +40,8 @@ Nhưng biến con trỏ không lưu giá trị bình thường, nó là biến t
 
 Trong đó:
 
-**Kiểu dữ liệu** có thể là: void, char, int, float, double,...
-Dấu * trước **tên biến** là ký hiệu báo cho trình biên dịch biết ta đang khai báo con trỏ.
+- **Kiểu dữ liệu** có thể là: void, char, int, float, double,...
+- Dấu * trước **tên biến** là ký hiệu báo cho trình biên dịch biết ta đang khai báo con trỏ.
 
 **Ví dụ 1:**
 ```c
@@ -80,7 +80,7 @@ int main() {
     return 0;
 }
 ```
-**&pt**: địa chỉ của con trỏ (được RAM cấp)
-**pt**: địa chỉ con trỏ trỏ đến (được RAM cấp)
-***pt**: giá trị tại vùng địa chỉ con trỏ trỏ đến (được RAM cấp)
+- **&pt**: địa chỉ của con trỏ (được RAM cấp)
+- **pt**: địa chỉ con trỏ trỏ đến (được RAM cấp)
+- ***pt**: giá trị tại vùng địa chỉ con trỏ trỏ đến (được RAM cấp)
 
