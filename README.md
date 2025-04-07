@@ -41,3 +41,9 @@ Con trỏ cấp 2 là **con trỏ trỏ đến một con trỏ khác**. Nó giú
 int a = 5;
 int *p = &a;       // con trỏ cấp 1
 int **pp = &p;     // con trỏ cấp 2
+```
+## 🔍 Ví dụ cơ bản
+![alt text](image.png)
+![alt text](image-1.png)
+
+Con trỏ cấp 1 lưu trữ địa chỉ của một biến còn con trỏ cấp 2 lưu trữ địa chỉ của 1 con trỏ.
