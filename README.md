@@ -9,11 +9,9 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 - [Tổng quan](#tổng-quan)
 - [Con trỏ cấp 2 là gì?](#con-trỏ-cấp-2-là-gì)
 - [Cách khai báo và sử dụng](#cách-khai-báo-và-sử-dụng)
-- [Ví dụ cơ bản](#ví-dụ-cơ-bản)
-- [Con trỏ cấp 2 trong cấp phát động](#Con trỏ cấp 2 trong cấp phát động)
+- [Con trỏ cấp 2 trong cấp phát động](#Con-trỏ-cấp-2-trong-cấp-phát-động)
 - [Ứng dụng của con trỏ cấp 2](#ứng-dụng-của-con-trỏ-cấp-2)
 - [Lưu ý khi sử dụng](#lưu-ý-khi-sử-dụng)
-- [Tài liệu tham khảo](#tài-liệu-tham-khảo)
 
 ---
 
@@ -69,6 +67,9 @@ int main()
     return 0;
 }
 ```
+
+## 🛠️ Ứng dụng của con trỏ cấp 2
+
 ### Ví dụ 2:
 ```c
 #include <stdio.h>
@@ -114,3 +115,88 @@ int main()
 ```
 - Tác dụng thứ nhất là thay đổi địa chỉ của con trỏ 1 chiều.
 - Tác dụng thứ 2 cấp phát động 1 mảng con trỏ.
+
+### Ví dụ 3:
+```c
+#include <stdio.h>
+
+void xuatmang(int *pt, int sophantu)
+{
+    for (int i = 0; i < sophantu; i++)
+    {
+        printf("%d ", pt[i]);
+    }
+}
+
+int main()
+{
+    int mang1[5] = {1, 2, 3, 4, 5};
+    int mang2[5] = {11, 12, 13, 14, 15};
+    int mang3[5] = {21, 22, 23, 24, 25};
+    int mang4[5] = {31, 32, 33, 34, 35};
+    int mang5[5] = {41, 42, 43, 44, 45};
+
+    int *pt0 = (int *)calloc(5, sizeof(int *));
+    xuatmang(pt0, 5);
+
+    return 0;
+}
+```
+- Vì hàm calloc trả về kiểu void là không có kiểu nên (int **) là để ép kiểu.
+
+### Ví dụ 4: Tác dụng thứ 3 cấp phát động mảng 2 chiều
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void NhapMaTran(int **a, int dong, int cot)
+{
+    int i, j;
+    for (i = 0; i < dong; i++)
+    for (j = 0; j < cot; j++)
+    {
+        printf("a[%d][%d] - ", i, j);
+        scanf("%d", &a[i][j]);
+    }
+}
+
+void XuatMaTran(int **a, int dong, int cot)
+{
+    int i, j;
+    for (i = 0; i < dong; i++)
+    {
+        for (j = 0; j < cot; j++)
+            printf("%5d ", a[i][j]);
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int **a = NULL, dong, cot;
+    printf("Nhap vao so dong - ");
+    scanf("%d", &dong);
+    printf("Nhap vao so cot - ");
+    scanf("%d", &cot);
+
+    // Cấp phát mảng chỉ mục cho từng dòng 1
+    a = (int **)malloc(dong * sizeof(int *));
+    for (i = 0; i < dong; i++)
+    {
+        // Cấp phát cho từng dòng 1
+        a[i] = (int *)malloc(cot * sizeof(int));
+    }
+    NhapMaTran(a, dong, cot);
+    XuatMaTran(a, dong, cot);
+
+    // Giải phóng con trỏ mảng lý các dòng
+    for (i = 0; i < dong; i++)
+    {
+        free(a[i]);
+    }
+    // Giải phóng con trỏ mảng
+    free(a);
+
+    return 0;
+}
+```
