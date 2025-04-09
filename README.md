@@ -15,8 +15,6 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
   - [extern](#extern)
 - [Ứng dụng của Storage Class Specifiers](#ứng-dụng-của-storage-class-specifiers)
 - [Lưu ý khi sử dụng](#lưu-ý-khi-sử-dụng)
-- [Tài liệu tham khảo](#tài-liệu-tham-khảo)
-
 ---
 
 ## 🧠 Tổng quan
@@ -73,3 +71,37 @@ void example() {
     printf("%d\n", count);
 }
 ```
+
+### static
+- Phạm vi: Biến có thể là biến cục bộ hoặc toàn cục.
+- Liên kết: Nếu khai báo trong hàm, biến sẽ không bị hủy và giữ lại giá trị qua các lần gọi hàm. Nếu khai báo ngoài hàm, biến chỉ có thể truy cập trong cùng một file.
+- Thời gian sống: Biến tồn tại suốt chương trình.
+```c
+void example() {
+    static int count = 0;  // Biến giữ giá trị qua các lần gọi hàm
+    count++;
+    printf("%d\n", count);
+}
+```
+
+### extern
+- Phạm vi: Biến hoặc hàm có thể truy cập từ các file khác.
+- Liên kết: Biến hoặc hàm được định nghĩa ở nơi khác, có thể truy cập từ nhiều file.
+- Thời gian sống: Biến tồn tại suốt chương trình.
+```c
+// file1.c
+extern int globalVariable;  // Biến được khai báo là extern
+
+void example() {
+    printf("%d\n", globalVariable);
+}
+
+// file2.c
+int globalVariable = 10;  // Biến toàn cục được định nghĩa
+```
+
+## 🛠️ Ứng dụng của Storage Class Specifiers
+Các Storage Class Specifiers giúp chúng ta:
+- Kiểm soát phạm vi truy cập của các biến, ví dụ như biến toàn cục chỉ có thể truy cập trong một file khi sử dụng static.
+- Tối ưu hóa hiệu suất bằng cách sử dụng register để yêu cầu trình biên dịch lưu trữ các biến trong thanh ghi của CPU.
+- Giữ lại giá trị của biến cục bộ qua các lần gọi hàm với static.
