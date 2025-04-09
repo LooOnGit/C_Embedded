@@ -45,7 +45,7 @@ Storage Class Specifiers là các từ khóa dùng để xác định tính ch�
 - **Thời gian sống**: Biến chỉ tồn tại trong khối mà nó được khai báo.
 - **Mặc định**: Các biến cục bộ sẽ tự động có kiểu `auto` nếu không được khai báo rõ ràng.
 
-### Nếu biến cục bộ tự động là auto thì tại sao sinh ra auto để làm gì?
+#### Nếu biến cục bộ tự động là auto thì tại sao sinh ra auto để làm gì?
 Mặc dù auto không cần thiết trong thực tế code C, nó vẫn hữu ích cho những người viết trình biên dịch vì:
 
 Giúp đơn giản hóa cấu trúc cú pháp ngôn ngữ (grammar): mọi biến đều có thể có một storage class specifier (ví dụ: auto, register, static, extern), nên người viết compiler chỉ cần xử lý một quy tắc cú pháp duy nhất cho tất cả khai báo biến.
@@ -58,3 +58,18 @@ void example() {
     auto int num = 10; // 'num' là biến cục bộ
     printf("%d\n", num);
 }
+```
+
+### register
+- Phạm vi: Biến cục bộ.
+- Liên kết: Không có liên kết.
+- Thời gian sống: Biến chỉ tồn tại trong khối mà nó được khai báo.
+- Sử dụng: Khuyến khích trình biên dịch lưu biến trong thanh ghi của CPU, giúp truy xuất nhanh hơn (không thể truy xuất tới địa chỉ của biến này (vì không có địa chỉ bộ nhớ).
+
+```c
+void example() {
+    register int count = 0; // Biến được lưu trữ trong thanh ghi
+    count++;
+    printf("%d\n", count);
+}
+```
