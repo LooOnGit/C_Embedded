@@ -119,3 +119,38 @@ int main() {
 }
 ```
 
+### 4. `strcmp`: So sánh hai chuỗi
+Hàm `strcmp` được sử dụng để so sánh hai chuỗi.
+
+**Cú pháp**:
+```c
+int strcmp(const char *str1, const char *str2);
+```
+**Tham số**:
+- `str1`: Chuỗi thứ nhất.
+- `str2`: Chuỗi thứ hai.
+
+**Trả về giá trị**:
+- `0`: Nếu hai chuỗi bằng nhau.
+- `< 0`: Nếu str1 nhỏ hơn `str2`.
+- `> 0`: Nếu str1 lớn hơn `str2`.
+
+**Ví dụ**:
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[] = "abc";
+    char str2[] = "def";
+    int ket_qua = strcmp(str1, str2);
+    if (ket_qua == 0) {
+        printf("Hai chuỗi bằng nhau.\n");
+    } else if (ket_qua < 0) {
+        printf("Chuỗi str1 nhỏ hơn str2.\n");
+    } else {
+        printf("Chuỗi str1 lớn hơn str2.\n");
+    }
+    return 0;
+}
+```
