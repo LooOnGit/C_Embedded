@@ -50,6 +50,7 @@ size_t strlen(const char *str);
 
 **Trả về giá trị**:
 - Độ dài của chuỗi (số ký tự, không tính **'\0'**).
+
 **Ví dụ:**
 ```c
 #include <stdio.h>
@@ -64,6 +65,7 @@ int main() {
 ```
 ### 2. `strcpy`: Sao chép chuỗi
 Hàm `strcpy` được sử dụng để sao chép nội dung của một chuỗi nguồn vào một chuỗi đích.
+
 **Cú pháp**:
 ```c
 char *strcpy(char *dest, const char *src);
@@ -71,8 +73,10 @@ char *strcpy(char *dest, const char *src);
 **Tham số**:
 - `dest`: Chuỗi đích (nơi nhận nội dung).
 - `src`: Chuỗi nguồn (nội dung cần sao chép).
+
 **Trả về giá trị**:
 - Con trỏ đến chuỗi đích `dest`.
+
 **Ví dụ**:
 ```c
 #include <stdio.h>
