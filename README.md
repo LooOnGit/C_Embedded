@@ -11,8 +11,6 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 - [Cách khai báo chuỗi](#cách-khai-báo-chuỗi)
 - [Các hàm xử lý chuỗi phổ biến](#các-hàm-xử-lý-chuỗi-phổ-biến)
 - [Ví dụ minh họa](#ví-dụ-minh-họa)
-- [Lưu ý khi sử dụng chuỗi](#lưu-ý-khi-sử-dụng-chuỗi)
-- [Tài liệu tham khảo](#tài-liệu-tham-khảo)
 
 ---
 
