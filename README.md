@@ -60,7 +60,7 @@ int main() {
     return 0;
 }
 ```
-📊 Mảng hai chiều
+## 📊 Mảng hai chiều
 Mảng hai chiều là mảng chứa các phần tử được tổ chức theo dạng bảng (hàng và cột).
 ### Cú pháp:
 ```c
