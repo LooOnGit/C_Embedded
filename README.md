@@ -154,3 +154,63 @@ int main() {
     return 0;
 }
 ```
+### 5. `strchr`: Tìm ký tự trong chuỗi
+Hàm `strchr` được sử dụng để tìm vị trí đầu tiên của một ký tự trong chuỗi.
+
+**Cú pháp**:
+```c
+char *strchr(const char *str, int c);
+```
+**Tham số**:
+- `str`: Chuỗi cần tìm.
+- `c`: Ký tự cần tìm.
+
+**Trả về giá trị**:
+Con trỏ đến vị trí đầu tiên của ký tự trong chuỗi, hoặc `NULL` nếu không tìm thấy.
+
+**Ví dụ**:
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char chuoi[] = "Hello, World!";
+    char *vi_tri = strchr(chuoi, 'W');
+    if (vi_tri != NULL) {
+        printf("Ký tự 'W' được tìm thấy tại vị trí: %ld\n", vi_tri - chuoi);
+    } else {
+        printf("Ký tự 'W' không tồn tại trong chuỗi.\n");
+    }
+    return 0;
+}
+```
+### 6. `strstr`: Tìm chuỗi con trong chuỗi
+Hàm `strstr` được sử dụng để tìm vị trí đầu tiên của một chuỗi con trong chuỗi.
+
+**Cú pháp**:
+```c
+char *strstr(const char *haystack, const char *needle);
+```
+**Tham số**:
+- `haystack`: Chuỗi cần tìm.
+- `needle`: Chuỗi con cần tìm.
+
+**Trả về giá trị**:
+Con trỏ đến vị trí đầu tiên của chuỗi con trong chuỗi, hoặc `NULL` nếu không tìm thấy.
+
+**Ví dụ**:
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char chuoi[] = "Hello, World!";
+    char *vi_tri = strstr(chuoi, "World");
+    if (vi_tri != NULL) {
+        printf("Chuỗi 'World' được tìm thấy tại vị trí: %ld\n", vi_tri - chuoi);
+    } else {
+        printf("Chuỗi 'World' không tồn tại trong chuỗi.\n");
+    }
+    return 0;
+}
+```
