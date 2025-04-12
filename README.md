@@ -214,3 +214,38 @@ int main() {
     return 0;
 }
 ```
+### 7. `strtok`: Tách chuỗi thành các token
+
+Hàm `strtok` được sử dụng để tách một chuỗi thành các phần nhỏ hơn (token) dựa trên các ký tự phân tách.
+
+**Cú pháp**:
+```c
+char *strtok(char *str, const char *delim);
+```
+**Tham số**:
+- `str`: Chuỗi cần tách (chỉ cần truyền chuỗi gốc trong lần gọi đầu tiên, các lần sau truyền `NULL`).
+- `delim`: Chuỗi chứa các ký tự phân tách.
+
+**Trả về giá trị**:
+- Con trỏ đến token đầu tiên tìm thấy.
+- `NULL` nếu không còn token nào.
+
+**Ví dụ**:
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char chuoi[] = "Hello,World,This,Is,C";
+    char *token = strtok(chuoi, ",");
+    
+    while (token != NULL) {
+        printf("Token: %s\n", token);
+        token = strtok(NULL, ",");
+    }
+
+    return 0;
+}
+```
+
+![alt text](image.png)
