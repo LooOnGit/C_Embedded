@@ -90,3 +90,32 @@ int main() {
     return 0;
 }
 ```
+
+### 3. `strcat`: Nối hai chuỗi
+Hàm `strcat` được sử dụng để nối chuỗi nguồn vào cuối chuỗi đích.
+
+**Cú pháp**:
+```c
+char *strcat(char *dest, const char *src);
+```
+**Tham số**:
+- `dest`: Chuỗi đích (nơi nối thêm nội dung).
+- `src`: Chuỗi nguồn (nội dung cần nối).
+
+**Trả về giá trị**:
+Con trỏ đến chuỗi đích ``dest``.
+
+**Ví dụ**:
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str1[20] = "Hello";
+    char str2[] = ", World!";
+    strcat(str1, str2);
+    printf("Chuỗi sau khi nối: %s\n", str1);
+    return 0;
+}
+```
+
