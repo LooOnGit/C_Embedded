@@ -34,3 +34,32 @@ char str[] = "Hello, World!";
 ```c
 char str[20] = "Hello";
 ```
+
+## 🔧 Các hàm xử lý chuỗi phổ biến
+
+### 1. `strlen`: Tính độ dài chuỗi
+
+Hàm `strlen` được sử dụng để tính độ dài của một chuỗi (không bao gồm ký tự null `'\0'`).
+
+**Cú pháp**:
+```c
+size_t strlen(const char *str);
+```
+**Tham số**:
+**str**: Chuỗi cần tính độ dài.
+
+**Trả về giá trị**:
+Độ dài của chuỗi (số ký tự, không tính **'\0'**).
+**Ví dụ:**
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char chuoi[] = "Hello";
+    size_t do_dai_chuoi = strlen(chuoi);
+    printf("Độ dài chuỗi = %zu\n", do_dai_chuoi);
+    return 0;
+}
+```
+
