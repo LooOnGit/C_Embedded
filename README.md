@@ -46,10 +46,10 @@ Hàm `strlen` được sử dụng để tính độ dài của một chuỗi (k
 size_t strlen(const char *str);
 ```
 **Tham số**:
-`str`: Chuỗi cần tính độ dài.
+- `str`: Chuỗi cần tính độ dài.
 
 **Trả về giá trị**:
-Độ dài của chuỗi (số ký tự, không tính **'\0'**).
+- Độ dài của chuỗi (số ký tự, không tính **'\0'**).
 **Ví dụ:**
 ```c
 #include <stdio.h>
@@ -69,10 +69,10 @@ Hàm `strcpy` được sử dụng để sao chép nội dung của một chuỗ
 char *strcpy(char *dest, const char *src);
 ```
 **Tham số**:
-`dest`: Chuỗi đích (nơi nhận nội dung).
-`src`: Chuỗi nguồn (nội dung cần sao chép).
+- `dest`: Chuỗi đích (nơi nhận nội dung).
+- `src`: Chuỗi nguồn (nội dung cần sao chép).
 **Trả về giá trị**:
-Con trỏ đến chuỗi đích `dest`.
+- Con trỏ đến chuỗi đích `dest`.
 **Ví dụ**:
 ```c
 #include <stdio.h>
