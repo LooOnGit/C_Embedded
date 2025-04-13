@@ -38,3 +38,44 @@ Tiền xử lý (Preprocessor) trong C là một bước thực hiện trước 
    ```c
    #include <stdlib.h>
    ```
+2. **Thêm file từ thư mục dự án**: 
+   Sử dụng dấu ngoặc kép " " để thêm các file .h trong thư mục chứa project của bạn. Nếu không tìm thấy file trong thư mục dự án, bộ tiền xử lý sẽ tiếp tục tìm trong thư viện hệ thống.
+   ```c
+   #include "myheader.h"
+   ```
+   **Cách hoạt động**:
+   Tất cả nội dung của file .h sẽ được chèn vào file .c tại vị trí của chỉ thị #include.
+### Ví dụ 2:
+
+Dưới đây là những gì ta có trong file `.c`:
+
+```c
+#include "file.h"
+
+long myFunction(int x, double y) {
+    /* Source code of function */
+}
+
+void otherFunction(long value) {
+    /* Source code of function */
+}
+```
+Và những gì có trong file .h:
+```c
+long myFunction(int x, double y);
+void otherFunction(long value);
+```
+**Tiền xử lý**:
+Khi sử dụng #include "file.h", bộ tiền xử lý sẽ chèn toàn bộ nội dung của file file.h vào file .c tại vị trí của chỉ thị #include. Kết quả sau khi tiền xử lý sẽ như sau:
+```c
+long myFunction(int x, double y);
+void otherFunction(long value);
+
+long myFunction(int x, double y) {
+    /* Source code of function */
+}
+
+void otherFunction(long value) {
+    /* Source code of function */
+}
+```
