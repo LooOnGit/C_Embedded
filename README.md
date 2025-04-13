@@ -79,3 +79,50 @@ void otherFunction(long value) {
     /* Source code of function */
 }
 ```
+### Ví dụ 3: Sử dụng hàm `static`
+
+#### Mô tả:
+Hàm `static` trong C được sử dụng để giới hạn phạm vi sử dụng của hàm chỉ trong file `.c` nơi nó được định nghĩa. Điều này giúp tránh xung đột tên hàm khi làm việc với nhiều file trong một dự án.
+
+#### Cách thực hiện:
+
+1. **Tạo file `lib.h`**:
+   ```c
+   #include <stdio.h>
+   void in_so();
+   ```
+
+2. **Tạo file `lib.c`**:
+   ```c
+   #include "lib.h"
+
+   static void so(int num) {
+       num = num + 1;
+   }
+
+   void in_so() {
+       int num = 0;
+       so(num);
+       printf("Số sau khi tăng: %d\n", num);
+   }
+   ```
+
+   - Hàm `static void so()` chỉ có thể được sử dụng trong file `lib.c`. Nó không thể được gọi từ các file khác.
+
+3. **Tạo file `main.c`**:
+   ```c
+   #include "lib.h"
+
+   int main() {
+       in_so();
+       return 0;
+   }
+   ```
+
+#### Kết quả:
+Khi chạy chương trình, bạn sẽ nhận được kết quả in ra từ hàm `in_so()`.
+
+#### Lưu ý:
+- Hàm `static` giúp bảo vệ các hàm nội bộ, tránh việc chúng bị sử dụng ngoài ý muốn từ các file khác.
+- Đây là một cách tốt để tổ chức mã nguồn và giảm thiểu xung đột tên trong các dự án lớn.
+
