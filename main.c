@@ -1,7 +1,7 @@
-#include <stdio.h>
-
+#include "lib.h"
 
 int main(){
-    printf("tran cong hoa");
+    int a = 0;
+    in_so();
     return 0;
 }
