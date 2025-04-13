@@ -27,9 +27,14 @@ Tiền xử lý (Preprocessor) trong C là một bước thực hiện trước 
 
 ### 1. Chỉ thị bao hàm tệp (`#include`)
 
-Dùng để chèn nội dung của một tệp tiêu đề (header file) vào mã nguồn.
+`#include` cho phép thêm nội dung của một file khác vào file đang viết. Chúng ta đặc biệt sử dụng `#include` để thêm các file `.h` từ thư viện chuẩn (như `stdio.h`, `stdlib.h`, `string.h`, `math.h`) hoặc các file `.h` do bạn tự định nghĩa.
 
-**Cú pháp**:
-```c
-#include <tên_tệp>   // Tìm tệp trong thư mục hệ thống
-#include "tên_tệp"   // Tìm tệp trong thư mục hiện tại
+---
+
+#### Cách sử dụng:
+
+1. **Thêm file từ thư viện hệ thống**:
+   Sử dụng dấu ngoặc nhọn `< >` để thêm các file `.h` có sẵn trong thư mục cài đặt IDE của bạn.
+   ```c
+   #include <stdlib.h>
+   ```
