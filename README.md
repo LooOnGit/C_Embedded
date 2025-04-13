@@ -126,3 +126,111 @@ Khi chạy chương trình, bạn sẽ nhận được kết quả in ra từ h�
 - Hàm `static` giúp bảo vệ các hàm nội bộ, tránh việc chúng bị sử dụng ngoài ý muốn từ các file khác.
 - Đây là một cách tốt để tổ chức mã nguồn và giảm thiểu xung đột tên trong các dự án lớn.
 
+### 2. Chỉ thị định nghĩa cho tên (`#define`)
+
+#### Mô tả:
+Chỉ thị `#define` trong C được sử dụng để định nghĩa một macro, tức là một tên thay thế cho một giá trị hoặc đoạn mã. Macro không chiếm bộ nhớ và được thay thế trực tiếp trong mã nguồn trong quá trình tiền xử lý.
+
+#### Các loại macro:
+
+1. **Macro giống đối tượng**:
+   - Macro này hoạt động như một hằng số, thay thế tên macro bằng giá trị được định nghĩa.
+   ```c
+   #define PI 3.14159
+   #define SLOGAN "Học mà chơi - Chơi mà học"
+   printf("Giá trị của PI: %f\n", PI);
+   printf("%s\n", SLOGAN);
+   ```
+
+   - Macro cũng có thể được định nghĩa mà không có giá trị thay thế. Khi xuất hiện trong mã nguồn, nó sẽ bị xóa và không được thay thế bởi bất kỳ giá trị nào.
+   ```c
+   #define USE_YEN
+   #ifdef USE_YEN
+   printf("Sử dụng đồng Yên.\n");
+   #endif
+   ```
+
+   - **Lưu ý**: Macro không có giá trị thay thế thường được sử dụng để kiểm tra điều kiện trong quá trình tiền xử lý.
+
+2. **Macro giống hàm**:
+   - Macro này hoạt động giống như một hàm inline, có thể nhận tham số.
+   ```c
+   #define SQUARE(x) ((x) * (x))
+   printf("Bình phương của 5: %d\n", SQUARE(5));
+   ```
+
+3. **Xóa định nghĩa macro**:
+   Sử dụng `#undef` để xóa một macro đã được định nghĩa.
+   ```c
+   #define TEMP 100
+   #undef TEMP
+   ```
+
+#### Ví dụ:
+
+1. **Định nghĩa hằng số**:
+   ```c
+   #define MAX 100
+
+   int arr[MAX];
+   printf("Kích thước mảng: %d\n", MAX);
+   ```
+
+2. **Macro với tham số**:
+   ```c
+   #define MULTIPLY(a, b) ((a) * (b))
+
+   int result = MULTIPLY(3, 4);
+   printf("Kết quả: %d\n", result);
+   ```
+
+3. **Sử dụng macro để kiểm tra nền tảng**:
+   ```c
+   #define WINDOWS
+
+   #ifdef WINDOWS
+   printf("Chương trình đang chạy trên Windows.\n");
+   #endif
+   ```
+
+#### Lưu ý:
+- Macro không kiểm tra kiểu dữ liệu, vì vậy cần cẩn thận khi sử dụng để tránh lỗi không mong muốn.
+- Sử dụng dấu ngoặc trong macro có tham số để đảm bảo tính đúng đắn của biểu thức.
+- Macro giúp tăng hiệu suất nhưng có thể làm mã nguồn khó đọc nếu lạm dụng.
+
+4. **So sánh `#define` và `typedef`**:
+   - `#define` chỉ đơn giản là thay thế tên bằng một giá trị hoặc đoạn mã khác trong quá trình tiền xử lý.
+   - `typedef` được sử dụng để định nghĩa một kiểu dữ liệu mới, giúp mã nguồn dễ đọc và dễ bảo trì hơn.
+   ```c
+   #define u8 char
+   typedef char u8;
+   ```
+   - **Khác biệt chính**:
+     - `#define` không kiểm tra kiểu dữ liệu, chỉ thực hiện thay thế văn bản.
+     - `typedef` được xử lý bởi trình biên dịch và cung cấp kiểm tra kiểu dữ liệu.
+### 5. Sử dụng `#undef` để hủy bỏ định nghĩa macro
+
+#### Mô tả:
+`#undef` được sử dụng để xóa một macro đã được định nghĩa trước đó. Điều này đặc biệt hữu ích khi bạn cần định nghĩa lại một macro với giá trị mới hoặc muốn đảm bảo rằng macro không còn tồn tại trong phạm vi tiếp theo của mã nguồn.
+
+#### Ví dụ:
+```c
+// Định nghĩa macro DEVIOT
+#define DEVIOT "Hello DEVIOT"
+
+// Hủy bỏ định nghĩa macro DEVIOT
+#undef DEVIOT
+
+// Định nghĩa lại macro DEVIOT với giá trị mới
+#define DEVIOT "Welcome to DEVIOT"
+
+printf("%s\n", DEVIOT); // Kết quả: Welcome to DEVIOT
+```
+
+#### Lưu ý:
+- **Phạm vi của macro**: Khi bộ tiền xử lý kết thúc, tất cả các macro được định nghĩa trong file sẽ bị loại bỏ. Điều này có nghĩa là macro chỉ có hiệu lực từ điểm định nghĩa đến cuối file.
+- **Sử dụng trong nhiều file**: Nếu làm việc với nhiều file, nên sử dụng `#undef` để tránh xung đột định nghĩa macro giữa các file.
+- **Định nghĩa trong file `.h`**: Khi định nghĩa macro trong file `.h`, các macro này sẽ được áp dụng cho tất cả các file `.c` mà file `.h` được `#include`.
+
+#### Ứng dụng thực tế:
+Khi làm việc với các dự án lớn, việc sử dụng `#undef` giúp tránh xung đột định nghĩa macro giữa các file khác nhau, đặc biệt khi các file có thể sử dụng cùng một tên macro nhưng với giá trị khác nhau.
