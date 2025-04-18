@@ -12,8 +12,10 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 - [Truy cập thành viên của struct](#truy-cập-thành-viên-của-struct)
 - [Sử dụng con trỏ với struct](#sử-dụng-con-trỏ-với-struct)
 - [Struct lồng nhau](#struct-lồng-nhau)
+- [Kích thước của Struct](#kích-thước-của-Struct)
+- [Phân mảnh bộ nhớ](#Phân-mảnh-bộ-nhớ)
+- [Cách khắc phục phân mảnh bộ nhớ](Cách-khắc-phục-phân-mảnh-bộ-nhớ)
 - [Ứng dụng của struct](#ứng-dụng-của-struct)
-- [Tài liệu tham khảo](#tài-liệu-tham-khảo)
 
 ---
 
@@ -148,6 +150,85 @@ int main() {
     return 0;
 }
 ```
+## 📏 Kích thước của Struct
+Giả sử mình có struct như sau và câu hỏi đặt ra là kích thước của nó là bằng bao nhiêu?
+**Câu trả lời:** Kích thước của struct là bội kích thước của phần tử có kích thước lớn nhất trong struct.
+![alt text](image.png)
+```c
+struct ST {
+    int Index;
+    char Team;
+};
+
+// Phần tử lớn nhất là Index có kích thước 4 byte.
+// -> Kích thước struct là bội của 4.
+
+// Index nằm trong block 4 byte đầu tiên.
+// Block này không còn byte trống, do con chip
+// thường là 32 bit thì 4 byte là đủ rồi mà.
+
+// Team có kích thước 1 byte phải nằm ở block tiếp theo.
+// Block này là 4 byte thừa 3 byte.
+
+// => Kích thước struct này là 8 byte.
+```
+## 🧩 Phân mảnh bộ nhớ (Memory Alignment)
+### Data alignment là gì? Nó hoạt động như thế nào?
+   Data alignment có nghĩa là khi data được load lên memory sẽ được CPU sắp xếp lại để tiện cho việc truy xuất tối ưu nhất có thể. Các bạn đều đã biết bộ nhớ máy tính là một dãy các ô nhớ liên tiếp nhau, mỗi ô nhớ có kích thước 1 byte. Tuy nhiên khi chương trình chạy, các vi xử lý hiện đại không truy cập từng ô nhớ một, mà một nhóm các ô nhớ gồm 2, 4 hoặc 8 bytes. Việc này nhằm mục đích tăng hiệu suất để đọc ghi của hệ thống.
+
+**Để có thể làm được việc đó chúng ta cần hiểu 2 khái niệm sau:**
+- **Data alignment**: sắp xếp data sao cho địa chỉ của các biến luôn là số chẵn và phù hợp với hệ thống.
+- **Data padding**: để làm được việc alignment như ở trên chúng ta cần phải "padding" (đệm) thêm một số byte vào sau biến "char id" để khi đó biến"int age" có thể ở địa chỉ chẵn. Char có thể bắt đầu trên bất cứ byte địa chỉ nào, short-2 bytes chỉ bắt đầu bằng các bytes địa chỉ chẵn, int-4 bytes hoặc float-4 bytes bắt đầu tại các byte địa chỉ chia hết cho 4, long-8bytes hoặc double-8 bytes bắt đầu tại các byte địa chỉ chia hết cho 8. Không có sự khác biệt giữa các kiểu có dấu và không dấu.
+![alt text](image-1.png)
+Những gì bạn tính là 1+4+8 = 13 bytes, nhưng kết quả lại là 16, lạ phải không nào?
+ Đầu tiên compiler sẽ tìm xem trong struct, thành viên nào có kích thước lớn nhất, sau đó sẽ cấp phát một block có kích thước lớn nhất, sau đó sẽ cấp phát một block có kích thước tương ứng với member lớn nhất, rồi điền các vùng nhớ của các members theo thứ tự khai báo trong struct, khi nào hết một block, sẽ cấp thêm block mới. Cụ thể với ví dụ trên:
+
+ Compiler sẽ xác định member gpa kiểu double là thành viên có kích thước lớn nhất trong struct, kích thước là 8bytes.
+
+ Sau đó, compiler sẽ đẩy 1 byte của **id** vào block. Lúc này còn 7 bytes trống, compiler sẽ xác định thành viên có kích thước bé tiếp theo rồi vào, ở đây sẽ là 4 bytes của **age**, compiler sẽ padding 3 bytes và đẩy age vào 4 bytes còn lại.
+ 	
+ Vậy là hết block đầu tiên, còn lại thành viên gpa chưa được cấp bộ nhớ, do đó compiler sẽ cấp phát tiếp 2 block 8bytes rồi đẩy **gpa** vào 8 bytes đó.
+
+**Ví dụ**: Tính kích thước của Struct
+```C
+struct A {
+    int x;
+    double z;
+    short int y;
+};
+
+struct B {
+    double z;
+    int x;
+    short int y;
+};
+
+struct C {
+    double z;
+    short int y;
+    int x;
+};
+```
+**Struct A**
+![alt text](image-2.png)
+- Kích thước của struct A là bội của 8 vì phần tử có kích thước lớn nhất là 8 byte và cấp từ trên xuống nên ta có:
+- Phần tử x kiểu int 4 byte và vì là bội của 8 nên còn 4byte trống
+- Phần tử z kiểu double 8 byte nên vừa đủ không có byte trống
+- Phần tử y kiểu short int 2 byte nên dùng 2 byte và còn 6byte trống
+- Tổng kích thước Struct A = 8+8+8 = 24 byte
+
+**Struct B**
+![alt text](image-3.png)
+- Kích thước z kiểu double 8 byte thì như trên.
+- Phần tử y short int kích thước 2 byte mà cấp đến 8 byte nên còn dư 6byte và x kiểu int 4 byte.
+- Kích thước Struct C = 8+2+2+4 = 16 byte.
+
+## 🛠️ Cách khắc phục phân mảnh bộ nhớ
+`#pragma pack(n)`: Từ khóa này sẽ nói cho trình biên dịch biết rằng cần cấp phát cho các phần tử trong struct theo n bytes một.
+![alt text](image-4.png)
+- Ý nghĩa của parama pack là lúc này chỉ cấp phát 1 byte 1
+Cách xem kích thước struct.
+![alt text](image-5.png)
 
 ## 💡 Ứng dụng của struct
 - Quản lý dữ liệu phức tạp như thông tin sinh viên, nhân viên, sản phẩm, v.v.
