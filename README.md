@@ -121,3 +121,35 @@ int main() {
     return 0;
 }
 ```
+
+## 📊 Struct lồng nhau
+`struct` có thể chứa các `struct` khác làm thành viên.
+### Ví dụ:
+```C
+#include <stdio.h>
+
+struct Address {
+    char city[50];
+    int zip;
+};
+
+struct Person {
+    char name[50];
+    struct Address address;
+};
+
+int main() {
+    struct Person person = {"Tran Cong Hoa", {"Hanoi", 100000}};
+
+    printf("Name: %s\n", person.name);
+    printf("City: %s\n", person.address.city);
+    printf("ZIP: %d\n", person.address.zip);
+
+    return 0;
+}
+```
+
+## 💡 Ứng dụng của struct
+- Quản lý dữ liệu phức tạp như thông tin sinh viên, nhân viên, sản phẩm, v.v.
+- Tổ chức dữ liệu trong lập trình nhúng và hệ thống.
+- Làm việc với các cấu trúc dữ liệu như danh sách liên kết, cây, đồ thị.
