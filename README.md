@@ -55,3 +55,37 @@ typedef union {
     char chuoi[50];
 } Hoclaptrinh;
 ```
+Khác với struct là về cách quản lý bộ nhớ, còn cách dùng thì giống nhau.
+
+## 🔍 Truy cập thành viên của union
+Các thành viên của `union` được truy cập bằng toán tử `.` (dấu chấm), tương tự như `struct`.
+### Ví dụ:
+```C
+#include <stdio.h>
+
+union Data {
+    int i;
+    float f;
+    char str[20];
+};
+
+int main() {
+    union Data data;
+
+    data.i = 10;
+    printf("data.i: %d\n", data.i);
+
+    data.f = 220.5;
+    printf("data.f: %.2f\n", data.f);
+
+    // Lưu ý: Giá trị của `data.i` sẽ bị ghi đè bởi `data.f`
+    return 0;
+}
+```
+## 🔄 Sự khác biệt giữa struct và union
+| **Đặc điểm**           | **struct**                          | **union**                          |
+|-------------------------|--------------------------------------|-------------------------------------|
+| **Bộ nhớ**             | Mỗi thành viên có vùng nhớ riêng    | Các thành viên chia sẻ cùng một vùng nhớ |
+| **Kích thước**         | Tổng kích thước của tất cả thành viên | Kích thước của thành viên lớn nhất |
+| **Truy cập đồng thời** | Các thành viên có thể được truy cập đồng thời | Chỉ một thành viên có thể được truy cập tại một thời điểm |
+| **Ứng dụng**           | Lưu trữ dữ liệu phức tạp với các thành viên độc lập | Tiết kiệm bộ nhớ khi các thành viên không cần tồn tại đồng thời |
