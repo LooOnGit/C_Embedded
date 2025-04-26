@@ -11,7 +11,7 @@ Tài liệu này cung cấp kiến thức cơ bản, ví dụ thực tế và gi
 - [Truy cập thành viên của union](#truy-cập-thành-viên-của-union)
 - [Sự khác biệt giữa struct và union](#sự-khác-biệt-giữa-struct-và-union)
 - [Ứng dụng của union](#ứng-dụng-của-union)
-- [Tài liệu tham khảo](#tài-liệu-tham-khảo)
+- [Ứng dụng trong embedded](Ứng-dụng-trong-embedded)
 
 ---
 
@@ -153,3 +153,168 @@ int main() {
     return 0;
 }
 ```
+## 💡 Ứng dụng của Union trong Embedded Systems
+### 1. **Quản lý thanh ghi**
+```C
+#include <stdio.h>
+#include <stdint.h>
+
+// Định nghĩa union cho motor control
+typedef union {
+    struct {
+        uint8_t start   :1;   // Bit 0: Bật/tắt động cơ
+        uint8_t stop    :1;   // Bit 1: Dừng động cơ
+        uint8_t reverse :1;   // Bit 2: Đảo chiều động cơ
+        uint8_t fault   :1;   // Bit 3: Báo lỗi
+        uint8_t reserved:4;   // Bit 4-7: Dự phòng
+    } bits;
+    uint8_t all;              // Truy cập toàn bộ 8 bits
+} MotorControlReg;
+
+MotorControlReg motorReg;
+
+void printMotorStatus(void) {
+    printf("Motor Status: start=%d, stop=%d, reverse=%d, fault=%d, raw=0x%02X\n",
+           motorReg.bits.start,
+           motorReg.bits.stop,
+           motorReg.bits.reverse,
+           motorReg.bits.fault,
+           motorReg.all);
+}
+
+int main(void) {
+    printf("=== Điều khiển động cơ ===\n");
+
+    // Bật động cơ
+    motorReg.bits.start = 1;
+    // Không đảo chiều
+    motorReg.bits.reverse = 0;
+    // Dừng động cơ (không dừng)
+    motorReg.bits.stop = 0;
+    // Không báo lỗi
+    motorReg.bits.fault = 0;
+
+    printMotorStatus();
+
+    // Ghi trực tiếp cả byte
+    motorReg.all = 0x0F;  // 00001111b → start=1, stop=1, reverse=1, fault=1
+
+    printMotorStatus();
+
+    return 0;
+}
+```
+**Kết Quả**
+```c
+=== Điều khiển động cơ ===
+Motor Status: start=1, stop=0, reverse=0, fault=0, raw=0x01
+Motor Status: start=1, stop=1, reverse=1, fault=1, raw=0x0F
+```
+
+### **Chuyển đổi dữ liệu (byte ↔ int ↔ float)**
+```C
+#include <stdio.h>
+#include <stdint.h>
+
+// Union dùng để chuyển đổi giữa float, int, và byte array
+typedef union {
+    float f;            // 4 byte float
+    uint32_t i;         // 4 byte integer
+    uint8_t bytes[4];   // 4 byte riêng lẻ
+} DataConverter;
+
+int main(void) {
+    DataConverter data;
+
+    // Gán giá trị float
+    data.f = 3.14159f;
+
+    printf("=== Chuyển đổi từ float ===\n");
+    printf("Float: %f\n", data.f);
+    printf("Integer: 0x%08X\n", data.i);
+    printf("Bytes: %02X %02X %02X %02X\n", data.bytes[0], data.bytes[1], data.bytes[2], data.bytes[3]);
+
+    // Giả sử truyền nhận dữ liệu, ta chỉ có 4 bytes:
+    uint8_t received_bytes[4] = { 0xDB, 0x0F, 0x49, 0x40 }; // Dữ liệu float 3.14159 dạng byte
+
+    // Copy vào data
+    for (int i = 0; i < 4; i++) {
+        data.bytes[i] = received_bytes[i];
+    }
+
+    printf("\n=== Sau khi nhận từ 4 bytes ===\n");
+    printf("Float: %f\n", data.f);
+    printf("Integer: 0x%08X\n", data.i);
+
+    return 0;
+}
+```
+**Kết Quả**
+```c
+=== Chuyển đổi từ float ===
+Float: 3.141590
+Integer: 0x40490FDB
+Bytes: DB 0F 49 40
+
+=== Sau khi nhận từ 4 bytes ===
+Float: 3.141590
+Integer: 0x40490FDB
+```
+Bạn gán cho data.f giá trị float 3.14159.
+
+Trong máy tính, float không lưu dưới dạng số thập phân như bạn nghĩ, mà nó mã hóa theo chuẩn IEEE-754 (chuẩn số thực dấu phẩy động 32-bit).
+
+✅ Số 3.14159 trong chuẩn IEEE-754 (float 32-bit) có dạng hex là: `0x40490FDB`
+
+### **Tối ưu bộ nhớ**
+```C
+#include <stdio.h>
+
+typedef union {
+    int intValue;
+    float floatValue;
+    char str[20];
+} Data;
+
+int main() {
+    Data data;
+
+    data.intValue = 42;
+    printf("Integer: %d\n", data.intValue);
+
+    data.floatValue = 3.14;
+    printf("Float: %.2f\n", data.floatValue);
+
+    return 0;
+}
+```
+### **Làm việc với giao tiếp ngoại vi (UART, SPI, I2C, LoRa, CAN, Modbus...)**
+```C
+#include <stdio.h>
+#include <stdint.h>  // Thư viện dùng kiểu uint8_t, uint16_t chuẩn
+
+// Định nghĩa kiểu dữ liệu Union để truy cập 2 byte của một từ 16-bit
+typedef union {
+    struct {
+        uint8_t lowByte;     // Byte thấp (8 bits đầu tiên)
+        uint8_t highByte;    // Byte cao (8 bits tiếp theo)
+    } bytes;
+    uint16_t word;           // Toàn bộ 16 bits
+} SPI_Data;
+
+int main() {
+    SPI_Data spiData;
+
+    // Gán giá trị 16-bit cho word
+    spiData.word = 0xABCD;   // 0xAB là high byte, 0xCD là low byte
+
+    // In ra từng byte
+    printf("Word: 0x%04X\n", spiData.word);
+    printf("High Byte: 0x%02X\n", spiData.bytes.highByte);
+    printf("Low Byte: 0x%02X\n", spiData.bytes.lowByte);
+
+    return 0;
+}
+```
+
+
